@@ -1,5 +1,7 @@
 # lab-xp
 [![Run on Repl.it](https://repl.it/badge/github/danielhrc/lab-xp)](https://repl.it/github/danielhrc/lab-xp)
+[![Maintainability](https://api.codeclimate.com/v1/badges/ac3338c7042f9df20f20/maintainability)](https://codeclimate.com/github/danielhrc/lab-xp/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/ac3338c7042f9df20f20/test_coverage)](https://codeclimate.com/github/danielhrc/lab-xp/test_coverage)
 ## Exemplo de execução:
 
 https://repl.it/@DanielHenriqueH/lab-xp
