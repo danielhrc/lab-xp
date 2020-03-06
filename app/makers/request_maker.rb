@@ -27,12 +27,7 @@ class RequestMaker
 
         csv<<["nome","url","Total de pullRequests","Data de Atualizacao","Total de releases","Total de issues abertas","Total de issues fechadas"]
 
-
-        @response["data"]["search"]["nodes"].each do |node|
-          csv<< [node["nameWithOwner"],node['url'],node['pullRequests']['totalCount'],
-                 node['updatedAt'],node['releases']['totalCount'],
-                 node['opened_issues']['totalCount'],node['closed_issues']['totalCount']]
-        end
+        response_navigator(csv)
 
         endCursor=@response["data"]["search"]["pageInfo"]["endCursor"]
 
@@ -43,18 +38,11 @@ class RequestMaker
               request.body = JSON.dump({"query" => "#{QUERY.gsub("){",", after: \"#{endCursor}\"){")}"})
 
               @response= JSON.parse(http.request(request).body)
+              response_navigator(csv)
 
-
-              @response["data"]["search"]["nodes"].each do |node|
-
-                csv<< [node["nameWithOwner"],node['url'],node['pullRequests']['totalCount'],
-                       node['updatedAt'],node['releases']['totalCount'],
-                       node['opened_issues']['totalCount'],node['closed_issues']['totalCount']]
-              end
               sleep(1)
               QUERY.gsub(", after: \"#{endCursor}\"", "")
               count=count+1
-
 
         end
 
@@ -63,6 +51,12 @@ class RequestMaker
     end
 
 
+  end
+
+  def response_navigator (csv)
+    @response["data"]["search"]["nodes"].each do |node|
+      csv<< [node["nameWithOwner"],node['url'],node['pullRequests']['totalCount'], node['updatedAt'],node['releases']['totalCount'], node['opened_issues']['totalCount'],node['closed_issues']['totalCount']]
+    end
   end
 
   def response
