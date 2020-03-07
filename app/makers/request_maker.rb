@@ -10,6 +10,8 @@ load 'constants/NAME_MAKER.rb'
 
 class RequestMaker
   def initialize
+
+
     uri = URI.parse("https://api.github.com/graphql")
     request = Net::HTTP::Post.new(uri)
     request["Authorization"] = "bearer #{KEY}"
@@ -29,18 +31,21 @@ class RequestMaker
 
         response_navigator(csv)
 
-        endCursor=@response["data"]["search"]["pageInfo"]["endCursor"]
-
         count=1
         # Pagination
         while count<50
 
-              request.body = JSON.dump({"query" => "#{QUERY.gsub("){",", after: \"#{endCursor}\"){")}"})
+          puts "Página #{count}"
+
+              request.body = JSON.dump({"query" => "#{QUERY.gsub("){",", after: \"#{@response["data"]["search"]["pageInfo"]["endCursor"]}\"){")}"})
+
+          endCursor=@response["data"]["search"]["pageInfo"]["endCursor"]
 
               @response= JSON.parse(http.request(request).body)
+            sleep(1)
               response_navigator(csv)
 
-              sleep(1)
+
               QUERY.gsub(", after: \"#{endCursor}\"", "")
               count=count+1
 
@@ -49,6 +54,7 @@ class RequestMaker
       end
 
     end
+
 
 
   end
