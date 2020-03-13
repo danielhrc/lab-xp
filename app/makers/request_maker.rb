@@ -33,7 +33,7 @@ class RequestMaker
 
         count=1
         # Pagination
-        while count<50
+        while count<1000
 
           puts "Página #{count}"
 
