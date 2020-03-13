@@ -27,7 +27,7 @@ class RequestMaker
 
         @response= JSON.parse(http.request(request).body)
 
-        csv<<["nome","url","Total de pullRequests","Data de Atualizacao","Total de releases","Total de issues abertas","Total de issues fechadas"]
+        csv << ["nome", "url","Data de criação", "Total de pullRequests Aceitas", "Data de Atualizacao", "Total de releases", "Total de issues abertas", "Total de issues fechadas","Linguagem Primária"]
 
         response_navigator(csv)
 
@@ -61,7 +61,7 @@ class RequestMaker
 
   def response_navigator (csv)
     @response["data"]["search"]["nodes"].each do |node|
-      csv<< [node["nameWithOwner"],node['url'],node['pullRequests']['totalCount'], node['updatedAt'],node['releases']['totalCount'], node['opened_issues']['totalCount'],node['closed_issues']['totalCount']]
+     csv << [node["nameWithOwner"], node['url'],node['createdAt'], node['pullRequests']['totalCount'], node['updatedAt'], node['releases']['totalCount'], node['opened_issues']['totalCount'], node['closed_issues']['totalCount'], node['primaryLanguage']['name']]
     end
   end
 
